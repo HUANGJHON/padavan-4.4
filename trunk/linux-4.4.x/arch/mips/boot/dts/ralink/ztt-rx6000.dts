@@ -7,7 +7,7 @@
 
 / {
 	compatible = "mediatek,mt7621-soc";
-	model = "C-Life XG1";
+	model = "ZTT RX6000";
 
 	chosen {
 		bootargs = "console=ttyS0,115200";
@@ -15,15 +15,20 @@
 
 	leds {
 		compatible = "gpio-leds";
-
-		sys_red {
-			label = "power_red";
-			gpios = <&gpio0 14 GPIO_ACTIVE_HIGH>;
+		
+		stat_red {
+			label = "power";
+			gpios = <&gpio0 17 GPIO_ACTIVE_HIGH>;
 		};
 
-		sys_blue {
-			label = "power";
+		stat_green {
+			label = "lan";
 			gpios = <&gpio0 15 GPIO_ACTIVE_LOW>;
+		};
+
+		stat_blue {
+			label = "wan";
+			gpios = <&gpio0 13 GPIO_ACTIVE_HIGH>;
 		};
 	};
 
@@ -35,26 +40,16 @@
 
 		reset {
 			label = "reset";
-			gpios = <&gpio0 18 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio0 16 GPIO_ACTIVE_LOW>;
 			linux,code = <KEY_RESTART>;
 		};
 
 		wps {
 			label = "wps";
-			gpios = <&gpio0 17 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio0 18 GPIO_ACTIVE_LOW>;
 			linux,code = <KEY_WPS_BUTTON>;
 		};
 	};
-	
-	reg_usb_vbus: regulator {
-		compatible = "regulator-fixed";
-		regulator-name = "usb_vbus";
-		regulator-min-microvolt = <5000000>;
-		regulator-max-microvolt = <5000000>;
-		gpio = <&gpio0 12 GPIO_ACTIVE_HIGH>;
-		enable-active-high;
-	};
-
 };
 
 &bch {
@@ -130,10 +125,5 @@
 };
 
 &xhci {
-	vbus-supply = <&reg_usb_vbus>;
-	status = "okay";
-};
-
-&u3phy1 {
 	status = "okay";
 };
